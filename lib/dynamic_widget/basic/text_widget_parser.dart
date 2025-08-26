@@ -31,7 +31,7 @@ class TextWidgetParser implements WidgetParser {
         softWrap: softWrap,
         textDirection: parseTextDirection(textDirectionString),
         style: map.containsKey('style') ? parseTextStyle(map['style']) : null,
-        textScaleFactor: textScaleFactor,
+        textScaler: TextScaler.linear(textScaleFactor ?? 1.0),
       );
     } else {
       return Text.rich(
@@ -43,7 +43,7 @@ class TextWidgetParser implements WidgetParser {
         softWrap: softWrap,
         textDirection: parseTextDirection(textDirectionString),
         style: map.containsKey('style') ? parseTextStyle(map['style']) : null,
-        textScaleFactor: textScaleFactor,
+        textScaler: TextScaler.linear(textScaleFactor ?? 1.0),
       );
     }
   }
@@ -67,7 +67,7 @@ class TextWidgetParser implements WidgetParser {
         "softWrap": realWidget.softWrap,
         "textDirection": exportTextDirection(realWidget.textDirection),
         "style": exportTextStyle(realWidget.style),
-        "textScaleFactor": realWidget.textScaleFactor
+        "textScaleFactor": realWidget.textScaler?.scale(1.0),
       };
     } else {
       var parser = TextSpanParser();
@@ -83,7 +83,7 @@ class TextWidgetParser implements WidgetParser {
         "softWrap": realWidget.softWrap,
         "textDirection": exportTextDirection(realWidget.textDirection),
         "style": exportTextStyle(realWidget.style),
-        "textScaleFactor": realWidget.textScaleFactor
+        "textScaleFactor": realWidget.textScaler?.scale(1.0),
       };
     }
   }
@@ -124,8 +124,8 @@ class TextSpanParser {
 
   void parseChildren(
       TextSpan textSpan, List<dynamic> childrenSpan, ClickListener? listener) {
-    for (var childmap in childrenSpan) {
-      textSpan.children!.add(parse(childmap, listener));
+    for (var childMap in childrenSpan) {
+      textSpan.children!.add(parse(childMap, listener));
     }
   }
 

@@ -990,9 +990,7 @@ String? exportDropCapMod(DropCapMode? mode) {
       return "aside";
     case DropCapMode.upwards:
       return "upwards";
-    default:
-      return "inside";
-  }
+    }
 }
 
 DropCapPosition? parseDropCapPosition(String? value) {
